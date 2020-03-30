@@ -2,7 +2,7 @@ import React from 'react';
 import XLSX from 'xlsx';
 import ReactTable from 'react-table-v6';
 import 'react-table-v6/react-table.css';
-import { CSVLink, CSVDownload } from 'react-csv';
+import { CSVLink } from 'react-csv';
 
 class App extends React.Component {
     // create ref of instance of input data
@@ -10,7 +10,7 @@ class App extends React.Component {
     state = {
         selectedFile: '',
         selectedToArray: [],
-        results: '',
+        results: [],
         tableHeaders: [],
         isItDisabled: true,
         queryValue: ''
@@ -91,7 +91,7 @@ class App extends React.Component {
     };
 
     render() {
-        if (this.state.results) {
+        if (this.state.results.length > 0) {
             return (
                 <React.Fragment>
                     <header>
@@ -128,6 +128,7 @@ class App extends React.Component {
                             >
                                 Clear
                             </button>
+                            <CSVLink data={this.state.results}>Export CSV</CSVLink>
                         </div>
                         <div>
                             <ReactTable
@@ -136,7 +137,7 @@ class App extends React.Component {
                                 style={{
                                     height: '400px'
                                 }}
-                                defaultPageSize={50}
+                                defaultPageSize={30}
                             />
                         </div>
                     </div>
