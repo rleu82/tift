@@ -116,6 +116,7 @@ class App extends React.Component {
                                 ref={this.itemRef}
                                 value={this.state.queryValue}
                                 onChange={this.handleInputChange}
+                                onKeyPress={this.handleKeyEnter}
                                 placeholder="items..."
                                 disabled={this.state.isItDisabled}
                             />
