@@ -18,6 +18,7 @@ header {
 .container {
     padding: 0 2em 2em 2em;
 }
+
 input {
     height: 2em;
     width: 25vw;
@@ -29,10 +30,10 @@ input:disabled {
     border: 1px solid lightslategrey;
 }
 .left-wrapper {
-    position: relative;
     overflow: hidden;
     display: inline-block;
     padding-right: 3em;
+    position: relative;
 }
 
 .upload-button {
@@ -58,10 +59,15 @@ input:disabled {
 .right-wrapper {
     padding: 3em 0;
 }
+.formWrapper {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
 .right-wrapper button {
     color: darkslategray;
     padding: 10px 15px;
-    margin-right: 1em;
+    margin: 1em 1em 0 0;
     border-radius: 10px;
     font-size: 1em;
     font-weight: bold;
@@ -71,10 +77,6 @@ input:disabled {
 
 .right-wrapper button:disabled {
     color: lightslategrey;
-    padding: 10px 15px;
-    border-radius: 10px;
-    font-size: 1em;
-    font-weight: bold;
     border: 1px solid lightslategrey;
     cursor: not-allowed;
 }

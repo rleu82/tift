@@ -19,7 +19,10 @@ class App extends React.Component {
     // load xlsx for parsing
     chooseFile = event => {
         const selectFile = event.target.files[0];
-        this.setState({ selectedFile: selectFile, isItDisabled: true }, function() {
+        if (!selectFile) {
+            return null;
+        }
+        return this.setState({ selectedFile: selectFile, isItDisabled: true }, function() {
             console.log(this.state.selectedFile.name);
             this.convert();
         });
