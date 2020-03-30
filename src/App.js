@@ -90,6 +90,13 @@ class App extends React.Component {
         this.setState({ queryValue: '' });
     };
 
+    // check for 'Enter' to submit query
+    handleKeyEnter = event => {
+        if (event.key === 'Enter') {
+            this.stringToArray();
+        }
+    };
+
     render() {
         if (this.state.results.length > 0) {
             return (
@@ -162,6 +169,7 @@ class App extends React.Component {
                             value={this.state.queryValue}
                             placeholder="items..."
                             onChange={this.handleInputChange}
+                            onKeyPress={this.handleKeyEnter}
                             disabled={this.state.isItDisabled}
                         />
                         <button
