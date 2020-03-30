@@ -19,8 +19,13 @@ header {
 }
 input {
     height: 2em;
+    width: 25vw;
     font-size: 1em;
     margin-right: 1em;
+    border: 1px solid black;
+}
+input:disabled {
+    border: 1px solid lightslategrey;
 }
 .left-wrapper {
     position: relative;
@@ -52,21 +57,27 @@ input {
 .right-wrapper {
     padding: 3em 0;
 }
-
-.query {
+.right-wrapper button {
     color: darkslategray;
     padding: 10px 15px;
+    margin-right: 1em;
     border-radius: 10px;
     font-size: 1em;
     font-weight: bold;
     border: 1px solid black;
+    cursor: pointer;
 }
 
-.query:disabled {
+.right-wrapper button:disabled {
     color: lightslategrey;
     padding: 10px 15px;
     border-radius: 10px;
     font-size: 1em;
     font-weight: bold;
     border: 1px solid lightslategrey;
+    cursor: not-allowed;
+}
+
+.rt-th {
+    font-weight: bold;
 }

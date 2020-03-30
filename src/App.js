@@ -2,6 +2,7 @@ import React from 'react';
 import XLSX from 'xlsx';
 import ReactTable from 'react-table-v6';
 import 'react-table-v6/react-table.css';
+import { CSVLink, CSVDownload } from 'react-csv';
 
 class App extends React.Component {
     // create ref of instance of input data
@@ -11,7 +12,8 @@ class App extends React.Component {
         selectedToArray: [],
         results: '',
         tableHeaders: [],
-        isItDisabled: true
+        isItDisabled: true,
+        queryValue: ''
     };
 
     // load xlsx for parsing
@@ -71,7 +73,7 @@ class App extends React.Component {
     stringToArray = () => {
         const filterThis = this.state.selectedToArray;
         const items = this.itemRef.current.value;
-        const filterOptions = items.split(',');
+        const filterOptions = items.split(',').map(item => item.trim());
         // console.log(filterOptions);
         const results = filterThis.filter(function(el) {
             return filterOptions.indexOf(el.prtnum) >= 0;
@@ -79,13 +81,21 @@ class App extends React.Component {
         console.log(results);
         this.setState({ results }, this.createHeader);
     };
+    // use state to manage input value: equal what user types
+    handleInputChange = event => {
+        this.setState({ queryValue: event.target.value });
+    };
+    // clears the input
+    handleInputReset = () => {
+        this.setState({ queryValue: '' });
+    };
 
     render() {
         if (this.state.results) {
             return (
                 <React.Fragment>
                     <header>
-                        <h1>Trans Incredible Filtering Too</h1>
+                        <h1>Tran's Incredible Filtering Tool</h1>
                     </header>
                     <div className="container">
                         <div className="left-wrapper">
@@ -97,6 +107,8 @@ class App extends React.Component {
                                 type="text"
                                 name="qItems"
                                 ref={this.itemRef}
+                                value={this.state.queryValue}
+                                onChange={this.handleInputChange}
                                 placeholder="items..."
                                 disabled={this.state.isItDisabled}
                             />
@@ -108,9 +120,24 @@ class App extends React.Component {
                             >
                                 Query
                             </button>
+                            <button
+                                className="query"
+                                type="button"
+                                onClick={this.handleInputReset}
+                                disabled={this.state.isItDisabled}
+                            >
+                                Clear
+                            </button>
                         </div>
                         <div>
-                            <ReactTable data={this.state.results} columns={this.state.tableHeaders} />
+                            <ReactTable
+                                data={this.state.results}
+                                columns={this.state.tableHeaders}
+                                style={{
+                                    height: '400px'
+                                }}
+                                defaultPageSize={50}
+                            />
                         </div>
                     </div>
                 </React.Fragment>
@@ -119,7 +146,7 @@ class App extends React.Component {
         return (
             <React.Fragment>
                 <header>
-                    <h1>Trans Incredible Filtering Too</h1>
+                    <h1>Tran's Incredible Filtering Tool</h1>
                 </header>
                 <div className="container">
                     <div className="left-wrapper">
@@ -131,7 +158,9 @@ class App extends React.Component {
                             type="text"
                             name="qItems"
                             ref={this.itemRef}
+                            value={this.state.queryValue}
                             placeholder="items..."
+                            onChange={this.handleInputChange}
                             disabled={this.state.isItDisabled}
                         />
                         <button
@@ -141,6 +170,14 @@ class App extends React.Component {
                             disabled={this.state.isItDisabled}
                         >
                             Query
+                        </button>
+                        <button
+                            className="query"
+                            type="button"
+                            onClick={this.handleInputReset}
+                            disabled={this.state.isItDisabled}
+                        >
+                            Clear
                         </button>
                     </div>
                 </div>
