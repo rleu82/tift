@@ -135,9 +135,9 @@ class App extends React.Component {
                                 data={this.state.results}
                                 columns={this.state.tableHeaders}
                                 style={{
-                                    height: '400px'
+                                    height: '600px'
                                 }}
-                                defaultPageSize={30}
+                                defaultPageSize={50}
                             />
                         </div>
                     </div>
