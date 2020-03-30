@@ -136,7 +136,9 @@ class App extends React.Component {
                             >
                                 Clear
                             </button>
-                            <CSVLink data={this.state.results}>Export CSV</CSVLink>
+                            <CSVLink data={this.state.results} filename="data.csv" target="_blank">
+                                Export CSV
+                            </CSVLink>
                         </div>
                         <div>
                             <ReactTable
