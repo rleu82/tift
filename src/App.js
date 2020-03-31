@@ -7,6 +7,7 @@ import { CSVLink } from 'react-csv';
 class App extends React.Component {
     // create ref of instance of input data
     itemRef = React.createRef();
+
     state = {
         selectedFile: '',
         selectedToArray: [],
@@ -104,7 +105,6 @@ class App extends React.Component {
     render() {
         let { handleRender } = this.state;
 
-        // if (this.state.results.length > 0) {
         return (
             <React.Fragment>
                 <header>
@@ -168,48 +168,6 @@ class App extends React.Component {
                 </div>
             </React.Fragment>
         );
-        // }
-        // return (
-        //     <React.Fragment>
-        //         <header>
-        //             <h1>Tran's Incredible Filtering Tool</h1>
-        //         </header>
-        //         <div className="container">
-        //             <div className="left-wrapper">
-        //                 <button className="upload-button">Select File</button>
-        //                 <input type="file" name="file-upload" accept=".xls,.xlsx" onChange={this.chooseFile} />
-        //             </div>
-        //             <div className="right-wrapper">
-        //                 <input
-        //                     type="text"
-        //                     name="qItems"
-        //                     ref={this.itemRef}
-        //                     value={this.state.queryValue}
-        //                     placeholder="items..."
-        //                     onChange={this.handleInputChange}
-        //                     onKeyPress={this.handleKeyEnter}
-        //                     disabled={this.state.isItDisabled}
-        //                 />
-        //                 <button
-        //                     className="query"
-        //                     type="button"
-        //                     onClick={this.stringToArray}
-        //                     disabled={this.state.isItDisabled}
-        //                 >
-        //                     Query
-        //                 </button>
-        //                 <button
-        //                     className="query"
-        //                     type="button"
-        //                     onClick={this.handleInputReset}
-        //                     disabled={this.state.isItDisabled}
-        //                 >
-        //                     Clear
-        //                 </button>
-        //             </div>
-        //         </div>
-        //     </React.Fragment>
-        // );
     }
 }
 
