@@ -29,6 +29,11 @@ input {
 input:disabled {
     border: 1px solid lightslategrey;
 }
+
+.logo {
+    width: 80px;
+}
+
 .left-wrapper {
     overflow: hidden;
     display: inline-block;

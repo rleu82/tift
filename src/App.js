@@ -3,13 +3,14 @@ import XLSX from 'xlsx';
 import ReactTable from 'react-table-v6';
 import 'react-table-v6/react-table.css';
 import { CSVLink } from 'react-csv';
+import logo from './assets/tift.svg';
 
 class App extends React.Component {
     // create ref of instance of input data
     itemRef = React.createRef();
 
     state = {
-        selectedFile: '',
+        selectedFile: 'No File Selected',
         selectedToArray: [],
         results: [],
         tableHeaders: [],
@@ -108,7 +109,7 @@ class App extends React.Component {
         return (
             <React.Fragment>
                 <header>
-                    <h1>Tran's Incredible Filtering Tool</h1>
+                    <img src={logo} className="logo" alt="logo" />
                 </header>
                 <div className="container">
                     <div className="left-wrapper">
