@@ -55,9 +55,12 @@ input:disabled {
 .left-wrapper input[type='file']:hover {
     cursor: pointer;
 }
-
+.left-wrapper span {
+    padding: 0 1em;
+}
 .right-wrapper {
-    padding: 3em 0;
+    margin: 0;
+    padding: 1em 0;
 }
 .formWrapper {
     position: absolute;

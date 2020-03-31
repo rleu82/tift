@@ -13,7 +13,8 @@ class App extends React.Component {
         results: [],
         tableHeaders: [],
         isItDisabled: true,
-        queryValue: ''
+        queryValue: '',
+        handleRender: false
     };
 
     // load xlsx for parsing
@@ -82,7 +83,7 @@ class App extends React.Component {
             return filterOptions.indexOf(el.prtnum) >= 0;
         });
         console.log(results);
-        this.setState({ results }, this.createHeader);
+        this.setState({ results, handleRender: true }, this.createHeader);
     };
     // use state to manage input value: equal what user types
     handleInputChange = event => {
@@ -101,62 +102,9 @@ class App extends React.Component {
     };
 
     render() {
-        if (this.state.results.length > 0) {
-            return (
-                <React.Fragment>
-                    <header>
-                        <h1>Tran's Incredible Filtering Tool</h1>
-                    </header>
-                    <div className="container">
-                        <div className="left-wrapper">
-                            <button className="upload-button">Select File</button>
-                            <input type="file" name="file-upload" accept=".xls,.xlsx" onChange={this.chooseFile} />
-                        </div>
-                        <div className="right-wrapper">
-                            <input
-                                type="text"
-                                name="qItems"
-                                ref={this.itemRef}
-                                value={this.state.queryValue}
-                                onChange={this.handleInputChange}
-                                onKeyPress={this.handleKeyEnter}
-                                placeholder="items..."
-                                disabled={this.state.isItDisabled}
-                            />
-                            <button
-                                className="query"
-                                type="button"
-                                onClick={this.stringToArray}
-                                disabled={this.state.isItDisabled}
-                            >
-                                Query
-                            </button>
-                            <button
-                                className="query"
-                                type="button"
-                                onClick={this.handleInputReset}
-                                disabled={this.state.isItDisabled}
-                            >
-                                Clear
-                            </button>
-                            <CSVLink data={this.state.results} filename="data.csv" target="_blank">
-                                Export CSV
-                            </CSVLink>
-                        </div>
-                        <div>
-                            <ReactTable
-                                data={this.state.results}
-                                columns={this.state.tableHeaders}
-                                style={{
-                                    height: '600px'
-                                }}
-                                defaultPageSize={50}
-                            />
-                        </div>
-                    </div>
-                </React.Fragment>
-            );
-        }
+        let { handleRender } = this.state;
+
+        // if (this.state.results.length > 0) {
         return (
             <React.Fragment>
                 <header>
@@ -166,6 +114,11 @@ class App extends React.Component {
                     <div className="left-wrapper">
                         <button className="upload-button">Select File</button>
                         <input type="file" name="file-upload" accept=".xls,.xlsx" onChange={this.chooseFile} />
+                        <span>
+                            <strong>
+                                <em>{this.state.selectedFile.name}</em>
+                            </strong>
+                        </span>
                     </div>
                     <div className="right-wrapper">
                         <input
@@ -173,9 +126,9 @@ class App extends React.Component {
                             name="qItems"
                             ref={this.itemRef}
                             value={this.state.queryValue}
-                            placeholder="items..."
                             onChange={this.handleInputChange}
                             onKeyPress={this.handleKeyEnter}
+                            placeholder="items..."
                             disabled={this.state.isItDisabled}
                         />
                         <button
@@ -194,10 +147,69 @@ class App extends React.Component {
                         >
                             Clear
                         </button>
+                        {handleRender && (
+                            <CSVLink data={this.state.results} filename="data.csv" target="_blank">
+                                Export CSV
+                            </CSVLink>
+                        )}
                     </div>
+                    {handleRender && (
+                        <div>
+                            <ReactTable
+                                data={this.state.results}
+                                columns={this.state.tableHeaders}
+                                style={{
+                                    height: '600px'
+                                }}
+                                defaultPageSize={50}
+                            />
+                        </div>
+                    )}
                 </div>
             </React.Fragment>
         );
+        // }
+        // return (
+        //     <React.Fragment>
+        //         <header>
+        //             <h1>Tran's Incredible Filtering Tool</h1>
+        //         </header>
+        //         <div className="container">
+        //             <div className="left-wrapper">
+        //                 <button className="upload-button">Select File</button>
+        //                 <input type="file" name="file-upload" accept=".xls,.xlsx" onChange={this.chooseFile} />
+        //             </div>
+        //             <div className="right-wrapper">
+        //                 <input
+        //                     type="text"
+        //                     name="qItems"
+        //                     ref={this.itemRef}
+        //                     value={this.state.queryValue}
+        //                     placeholder="items..."
+        //                     onChange={this.handleInputChange}
+        //                     onKeyPress={this.handleKeyEnter}
+        //                     disabled={this.state.isItDisabled}
+        //                 />
+        //                 <button
+        //                     className="query"
+        //                     type="button"
+        //                     onClick={this.stringToArray}
+        //                     disabled={this.state.isItDisabled}
+        //                 >
+        //                     Query
+        //                 </button>
+        //                 <button
+        //                     className="query"
+        //                     type="button"
+        //                     onClick={this.handleInputReset}
+        //                     disabled={this.state.isItDisabled}
+        //                 >
+        //                     Clear
+        //                 </button>
+        //             </div>
+        //         </div>
+        //     </React.Fragment>
+        // );
     }
 }
 
