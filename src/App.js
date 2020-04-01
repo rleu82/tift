@@ -4,7 +4,6 @@ import ReactTable from 'react-table-v6';
 import 'react-table-v6/react-table.css';
 import { CSVLink } from 'react-csv';
 import logo from './assets/tift.svg';
-import logoNext from './assets/tran.png';
 
 class App extends React.Component {
     // create ref of instance of input data
