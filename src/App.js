@@ -90,8 +90,11 @@ class App extends React.Component {
         const results = filterThis.filter(function(el) {
             return filterOptions.indexOf(el.prtnum) >= 0;
         });
+        // calculate availabilty on hand
+        const calcResults = results.map(resItem => ({ ...resItem, OnHandQuantity: resItem.untqty - resItem.comqty }));
         console.log(results);
-        this.setState({ results, handleRender: true }, this.createHeader);
+        console.log(calcResults);
+        this.setState({ results: calcResults, handleRender: true }, this.createHeader);
     };
     // use state to manage input value: equal what user types
     handleInputChange = event => {
