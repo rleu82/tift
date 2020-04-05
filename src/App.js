@@ -70,6 +70,12 @@ class App extends React.Component {
                 accessor: column.toString()
             };
         });
+        const onHandQuantity = {
+            id: 'OnHandQuantity',
+            Header: 'OnHandQuantity',
+            accessor: 'OnHandQuantity'
+        };
+        tableHeaders.push(onHandQuantity);
         this.setState({ tableHeaders, isItDisabled: false }, function() {
             console.log(this.state.tableHeaders);
         });
@@ -117,61 +123,96 @@ class App extends React.Component {
                     </div>
                 </header>
                 <div className="container">
-                    <div className="left-wrapper">
-                        <button className="upload-button">Select File</button>
-                        <input type="file" name="file-upload" accept=".xls,.xlsx" onChange={this.chooseFile} />
-                        <span>
-                            <strong>
-                                <em>{this.state.selectedFile.name}</em>
-                            </strong>
-                        </span>
+                    <div className="left-grid">
+                        <div className="left-wrapper">
+                            <button className="upload-button">Select File</button>
+                            <input type="file" name="file-upload" accept=".xls,.xlsx" onChange={this.chooseFile} />
+                            <span>
+                                <strong>
+                                    <em>{this.state.selectedFile.name}</em>
+                                </strong>
+                            </span>
+                        </div>
+                        <div className="right-wrapper">
+                            <label htmlFor="item-numbers">Item Number(s):</label>
+                            <input
+                                type="text"
+                                id="item-numbers"
+                                name="qItems"
+                                ref={this.itemRef}
+                                value={this.state.queryValue}
+                                onChange={this.handleInputChange}
+                                onKeyPress={this.handleKeyEnter}
+                                placeholder="items..."
+                                disabled={this.state.isItDisabled}
+                            />
+                            <button
+                                className="query"
+                                type="button"
+                                onClick={this.stringToArray}
+                                disabled={this.state.isItDisabled}
+                            >
+                                Search
+                            </button>
+                            <button
+                                className="query"
+                                type="button"
+                                onClick={this.handleInputReset}
+                                disabled={this.state.isItDisabled}
+                            >
+                                Clear
+                            </button>
+                            {handleRender && (
+                                <CSVLink data={this.state.results} filename="data.csv" target="_blank">
+                                    Export CSV
+                                </CSVLink>
+                            )}
+                        </div>
                     </div>
-                    <div className="right-wrapper">
-                        <input
-                            type="text"
-                            name="qItems"
-                            ref={this.itemRef}
-                            value={this.state.queryValue}
-                            onChange={this.handleInputChange}
-                            onKeyPress={this.handleKeyEnter}
-                            placeholder="items..."
-                            disabled={this.state.isItDisabled}
-                        />
-                        <button
-                            className="query"
-                            type="button"
-                            onClick={this.stringToArray}
-                            disabled={this.state.isItDisabled}
-                        >
-                            Query
-                        </button>
-                        <button
-                            className="query"
-                            type="button"
-                            onClick={this.handleInputReset}
-                            disabled={this.state.isItDisabled}
-                        >
-                            Clear
-                        </button>
-                        {handleRender && (
-                            <CSVLink data={this.state.results} filename="data.csv" target="_blank">
-                                Export CSV
-                            </CSVLink>
-                        )}
-                    </div>
-                    {handleRender && (
-                        <div>
-                            <ReactTable
-                                data={this.state.results}
-                                columns={this.state.tableHeaders}
-                                style={{
-                                    height: '600px'
-                                }}
-                                defaultPageSize={50}
+                    <div className="right-grid">
+                        <div className="flag-container">
+                            <label htmlFor="area" className="right-label">
+                                Area:
+                            </label>
+                            <input type="text" id="area" name="area" className="right-input" />
+                        </div>
+                        <div className="flag-container">
+                            <label htmlFor="wh-id" className="right-label">
+                                Warehouse ID:
+                            </label>
+                            <input type="text" id="wh-id" name="wh-id" className="right-input" />
+                        </div>
+                        <div className="flag-container">
+                            <span>OnHandQuantity Range:</span>
+                            <input
+                                type="text"
+                                id="ohqr-min"
+                                name="ohqr-min"
+                                placeholder="min..."
+                                className="minmax-input"
+                            />
+                            <input
+                                type="text"
+                                id="ohqr-max"
+                                name="ohqr-max"
+                                placeholder="max..."
+                                className="minmax-input"
                             />
                         </div>
-                    )}
+                    </div>
                 </div>
+                {handleRender && (
+                    <div className="query-results">
+                        <ReactTable
+                            data={this.state.results}
+                            columns={this.state.tableHeaders}
+                            style={{
+                                height: '60vh'
+                            }}
+                            defaultPageSize={50}
+                        />
+                    </div>
+                )}
             </React.Fragment>
         );
     }

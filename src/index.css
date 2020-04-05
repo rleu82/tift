@@ -8,15 +8,18 @@ body {
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
 header {
     display: flex;
     justify-content: flex-start;
     padding: 1.5em;
     background-color: whitesmoke;
 }
+
 .logo {
     height: 40px;
 }
+
 .tran-container {
     display: flex;
     align-items: flex-end;
@@ -25,19 +28,12 @@ header {
     font-weight: 600;
     color: rgb(85, 85, 85);
 }
+
 .container {
     padding: 1.5em 2em 0 2em;
-}
-
-input {
-    height: 2em;
-    width: 25vw;
-    font-size: 1em;
-    margin-right: 1em;
-    border: 1px solid black;
-}
-input:disabled {
-    border: 1px solid lightslategrey;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
 }
 
 .left-wrapper {
@@ -48,7 +44,7 @@ input:disabled {
 }
 
 .upload-button {
-    color: darkslategray;
+    color: black;
     padding: 10px 15px;
     border-radius: 10px;
     font-size: 1em;
@@ -57,31 +53,36 @@ input:disabled {
 }
 
 .left-wrapper input[type='file'] {
+    width: 110px;
     font-size: 75px;
     position: absolute;
     left: 0;
     top: 0;
     opacity: 0;
 }
+
 .left-wrapper input[type='file']:hover {
     cursor: pointer;
 }
+
 .left-wrapper span {
     padding: 0 1em;
 }
+
 .right-wrapper {
-    margin: 0;
-    padding: 1em 0;
+    padding: 1em 0 2em 0;
 }
+
 .formWrapper {
     position: absolute;
     bottom: 0;
     left: 0;
 }
+
 .right-wrapper button {
-    color: darkslategray;
+    color: black;
     padding: 10px 15px;
-    margin: 0 1em 0 0;
+    margin: 0.75em 1em 0 0;
     border-radius: 10px;
     font-size: 1em;
     font-weight: bold;
@@ -95,6 +96,59 @@ input:disabled {
     cursor: not-allowed;
 }
 
+.right-wrapper label {
+    display: block;
+}
+
+.right-wrapper input {
+    height: 2em;
+    width: 80%;
+    display: block;
+    font-size: 1em;
+    border: 1px solid black;
+    margin-top: 0.5em;
+}
+
+.right-wrapper input:disabled {
+    border: 1px solid lightslategrey;
+}
+
+.right-grid {
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    grid-template-rows: repeat(2, max-content);
+    grid-column-gap: 30px;
+    grid-row-gap: 10px;
+}
+
+.right-grid .right-label {
+    padding-right: 0.25em;
+}
+.right-grid input {
+    display: block;
+    margin-top: 0.5em;
+    height: 1.75em;
+    font-size: 1em;
+    border: 1px solid black;
+}
+.right-grid .minmax-input {
+    display: inline-block;
+    width: 70px;
+    margin-right: 10px;
+    border: 1px solid rgb(32, 32, 32);
+}
+.right-grid span {
+    display: block;
+    padding-bottom: 0.25em;
+}
+
+.flag-container {
+    padding-bottom: 1em;
+}
 .rt-th {
     font-weight: bold;
+}
+
+.query-results {
+    padding: 0 2em 2em 2em;
 }
