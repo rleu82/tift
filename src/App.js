@@ -8,6 +8,8 @@ import logo from './assets/tift.svg';
 class App extends React.Component {
     // create ref of instance of input data
     itemRef = React.createRef();
+    minRef = React.createRef();
+    maxRef = React.createRef();
 
     state = {
         selectedFile: 'No File Selected',
@@ -16,7 +18,8 @@ class App extends React.Component {
         tableHeaders: [],
         isItDisabled: true,
         queryValue: '',
-        handleRender: false
+        handleRender: false,
+        minMaxNum: 0
     };
 
     // load xlsx for parsing
@@ -82,7 +85,7 @@ class App extends React.Component {
     };
 
     // grab items enter and create array and filter inventory to find those items
-    stringToArray = () => {
+    searchQuery = () => {
         const filterThis = this.state.selectedToArray;
         const items = this.itemRef.current.value;
         const filterOptions = items.split(',').map(item => item.trim());
@@ -94,7 +97,28 @@ class App extends React.Component {
         const calcResults = results.map(resItem => ({ ...resItem, OnHandQuantity: resItem.untqty - resItem.comqty }));
         console.log(results);
         console.log(calcResults);
-        this.setState({ results: calcResults, handleRender: true }, this.createHeader);
+        // filter range of onHandQuantity
+        const minNum = this.minRef.current.value;
+        const maxNum = this.maxRef.current.value;
+        let filterMinMax = calcResults;
+        if (minNum > 0 && maxNum > 0) {
+            filterMinMax = calcResults
+                .filter(rangeItem => rangeItem.OnHandQuantity >= minNum)
+                .filter(rangeItem => rangeItem.OnHandQuantity <= maxNum);
+            this.setState({ results: filterMinMax, handleRender: true }, this.createHeader);
+            console.log('both');
+        } else if (minNum > 0 && maxNum < 1) {
+            filterMinMax = calcResults.filter(rangeItem => rangeItem.OnHandQuantity >= minNum);
+            this.setState({ results: filterMinMax, handleRender: true }, this.createHeader);
+            console.log('minonly');
+        } else if (minNum < 1 && maxNum > 0) {
+            filterMinMax = calcResults.filter(rangeItem => rangeItem.OnHandQuantity <= maxNum);
+            this.setState({ results: filterMinMax, handleRender: true }, this.createHeader);
+            console.log('maxonly');
+        } else {
+            this.setState({ results: calcResults, handleRender: true }, this.createHeader);
+            console.log(minNum + ' ' + maxNum);
+        }
     };
     // use state to manage input value: equal what user types
     handleInputChange = event => {
@@ -108,7 +132,7 @@ class App extends React.Component {
     // check for 'Enter' to submit query
     handleKeyEnter = event => {
         if (event.key === 'Enter') {
-            this.stringToArray();
+            this.searchQuery();
         }
     };
 
@@ -152,7 +176,7 @@ class App extends React.Component {
                             <button
                                 className="query"
                                 type="button"
-                                onClick={this.stringToArray}
+                                onClick={this.searchQuery}
                                 disabled={this.state.isItDisabled}
                             >
                                 Search
@@ -188,16 +212,22 @@ class App extends React.Component {
                         <div className="flag-container">
                             <span>OnHandQuantity Range:</span>
                             <input
-                                type="text"
+                                type="number"
                                 id="ohqr-min"
+                                ref={this.minRef}
                                 name="ohqr-min"
+                                min="0"
+                                defaultValue="0"
                                 placeholder="min..."
                                 className="minmax-input"
                             />
                             <input
-                                type="text"
+                                type="number"
                                 id="ohqr-max"
+                                ref={this.maxRef}
                                 name="ohqr-max"
+                                min="0"
+                                defaultValue="0"
                                 placeholder="max..."
                                 className="minmax-input"
                             />
