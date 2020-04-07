@@ -1,13 +1,13 @@
 import React from 'react';
+import Header from './Header';
+import Queryform from './Queryform';
 import XLSX from 'xlsx';
 import ReactTable from 'react-table-v6';
 import 'react-table-v6/react-table.css';
-import { CSVLink } from 'react-csv';
-import logo from './assets/tift.svg';
 
 class App extends React.Component {
     // create ref of instance of input data
-    itemRef = React.createRef();
+
     minRef = React.createRef();
 
     state = {
@@ -85,7 +85,7 @@ class App extends React.Component {
     // grab items enter and create array and filter inventory to find those items
     searchQuery = () => {
         const filterThis = this.state.selectedToArray;
-        const items = this.itemRef.current.value;
+        const items = this.state.queryValue;
         const filterOptions = items.split(',').map(item => item.trim());
         // console.log(filterOptions);
         const results = filterThis.filter(function(el) {
@@ -125,61 +125,20 @@ class App extends React.Component {
 
         return (
             <React.Fragment>
-                <header>
-                    <div className="logo-container">
-                        <img src={logo} className="logo" alt="logo" />
-                    </div>
-                    <div className="tran-container">
-                        <span>TRAN'S INCREDIBLE FILTERING TOOL</span>
-                    </div>
-                </header>
+                <Header />
                 <div className="container">
-                    <div className="left-grid">
-                        <div className="left-wrapper">
-                            <button className="upload-button">Select File</button>
-                            <input type="file" name="file-upload" accept=".xls,.xlsx" onChange={this.chooseFile} />
-                            <span>
-                                <strong>
-                                    <em>{this.state.selectedFile.name}</em>
-                                </strong>
-                            </span>
-                        </div>
-                        <div className="right-wrapper">
-                            <label htmlFor="item-numbers">Item Number(s):</label>
-                            <input
-                                type="text"
-                                id="item-numbers"
-                                name="qItems"
-                                ref={this.itemRef}
-                                value={this.state.queryValue}
-                                onChange={this.handleInputChange}
-                                onKeyPress={this.handleKeyEnter}
-                                placeholder="items..."
-                                disabled={this.state.isItDisabled}
-                            />
-                            <button
-                                className="query"
-                                type="button"
-                                onClick={this.searchQuery}
-                                disabled={this.state.isItDisabled}
-                            >
-                                Search
-                            </button>
-                            <button
-                                className="query"
-                                type="button"
-                                onClick={this.handleInputReset}
-                                disabled={this.state.isItDisabled}
-                            >
-                                Clear
-                            </button>
-                            {handleRender && (
-                                <CSVLink data={this.state.results} filename="data.csv" target="_blank">
-                                    Export CSV
-                                </CSVLink>
-                            )}
-                        </div>
-                    </div>
+                    <Queryform
+                        chooseFile={this.chooseFile}
+                        selectedFile={this.state.selectedFile.name}
+                        queryValue={this.state.queryValue}
+                        handleInputChange={this.handleInputChange}
+                        handleKeyEnter={this.handleKeyEnter}
+                        isItDisabled={this.state.isItDisabled}
+                        searchQuery={this.searchQuery}
+                        handleInputReset={this.handleInputReset}
+                        handleRender={this.state.handleRender}
+                        results={this.state.results}
+                    />
                     <div className="right-grid">
                         <div className="flag-container">
                             <label htmlFor="area" className="right-label">
