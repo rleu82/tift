@@ -118,28 +118,18 @@ header {
     grid-template-columns: repeat(2, max-content);
     grid-template-rows: repeat(2, max-content);
     grid-column-gap: 30px;
-    grid-row-gap: 10px;
 }
 
 .right-grid .right-label {
     padding-right: 0.25em;
+    display: block;
 }
 .right-grid input {
     display: block;
-    margin-top: 0.5em;
+    margin-top: 0.3em;
     height: 1.75em;
     font-size: 1em;
     border: 1px solid black;
-}
-.right-grid .minmax-input {
-    display: inline-block;
-    width: 70px;
-    margin-right: 10px;
-    border: 1px solid rgb(32, 32, 32);
-}
-.right-grid span {
-    display: block;
-    padding-bottom: 0.25em;
 }
 
 .flag-container {

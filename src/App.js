@@ -9,7 +9,6 @@ class App extends React.Component {
     // create ref of instance of input data
     itemRef = React.createRef();
     minRef = React.createRef();
-    maxRef = React.createRef();
 
     state = {
         selectedFile: 'No File Selected',
@@ -18,8 +17,7 @@ class App extends React.Component {
         tableHeaders: [],
         isItDisabled: true,
         queryValue: '',
-        handleRender: false,
-        minMaxNum: 0
+        handleRender: false
     };
 
     // load xlsx for parsing
@@ -96,28 +94,14 @@ class App extends React.Component {
         // calculate availabilty on hand
         const calcResults = results.map(resItem => ({ ...resItem, OnHandQuantity: resItem.untqty - resItem.comqty }));
         console.log(results);
-        console.log(calcResults);
-        // filter range of onHandQuantity
         const minNum = this.minRef.current.value;
-        const maxNum = this.maxRef.current.value;
         let filterMinMax = calcResults;
-        if (minNum > 0 && maxNum > 0) {
-            filterMinMax = calcResults
-                .filter(rangeItem => rangeItem.OnHandQuantity >= minNum)
-                .filter(rangeItem => rangeItem.OnHandQuantity <= maxNum);
-            this.setState({ results: filterMinMax, handleRender: true }, this.createHeader);
-            console.log('both');
-        } else if (minNum > 0 && maxNum < 1) {
+        // filter range of onHandQuantity
+        if (minNum > 0) {
             filterMinMax = calcResults.filter(rangeItem => rangeItem.OnHandQuantity >= minNum);
             this.setState({ results: filterMinMax, handleRender: true }, this.createHeader);
-            console.log('minonly');
-        } else if (minNum < 1 && maxNum > 0) {
-            filterMinMax = calcResults.filter(rangeItem => rangeItem.OnHandQuantity <= maxNum);
-            this.setState({ results: filterMinMax, handleRender: true }, this.createHeader);
-            console.log('maxonly');
         } else {
             this.setState({ results: calcResults, handleRender: true }, this.createHeader);
-            console.log(minNum + ' ' + maxNum);
         }
     };
     // use state to manage input value: equal what user types
@@ -210,7 +194,9 @@ class App extends React.Component {
                             <input type="text" id="wh-id" name="wh-id" className="right-input" />
                         </div>
                         <div className="flag-container">
-                            <span>OnHandQuantity Range:</span>
+                            <label htmlFor="ohqr-min" className="right-label">
+                                Minimum On Hand:
+                            </label>
                             <input
                                 type="number"
                                 id="ohqr-min"
@@ -219,17 +205,7 @@ class App extends React.Component {
                                 min="0"
                                 defaultValue="0"
                                 placeholder="min..."
-                                className="minmax-input"
-                            />
-                            <input
-                                type="number"
-                                id="ohqr-max"
-                                ref={this.maxRef}
-                                name="ohqr-max"
-                                min="0"
-                                defaultValue="0"
-                                placeholder="max..."
-                                className="minmax-input"
+                                className="right-input"
                             />
                         </div>
                     </div>
