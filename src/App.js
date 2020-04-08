@@ -1,15 +1,12 @@
 import React from 'react';
 import Header from './Header';
 import Queryform from './Queryform';
+import Filters from './Filters';
+import Rtable from './Rtable';
 import XLSX from 'xlsx';
-import ReactTable from 'react-table-v6';
 import 'react-table-v6/react-table.css';
 
 class App extends React.Component {
-    // create ref of instance of input data
-
-    minRef = React.createRef();
-
     state = {
         selectedFile: 'No File Selected',
         selectedToArray: [],
@@ -17,6 +14,7 @@ class App extends React.Component {
         tableHeaders: [],
         isItDisabled: true,
         queryValue: '',
+        minValue: 0,
         handleRender: false
     };
 
@@ -94,7 +92,7 @@ class App extends React.Component {
         // calculate availabilty on hand
         const calcResults = results.map(resItem => ({ ...resItem, OnHandQuantity: resItem.untqty - resItem.comqty }));
         console.log(results);
-        const minNum = this.minRef.current.value;
+        const minNum = this.state.minValue;
         let filterMinMax = calcResults;
         // filter range of onHandQuantity
         if (minNum > 0) {
@@ -107,6 +105,10 @@ class App extends React.Component {
     // use state to manage input value: equal what user types
     handleInputChange = event => {
         this.setState({ queryValue: event.target.value });
+    };
+
+    handleMinChange = event => {
+        this.setState({ minValue: event.target.value });
     };
     // clears the input
     handleInputReset = () => {
@@ -139,48 +141,9 @@ class App extends React.Component {
                         handleRender={this.state.handleRender}
                         results={this.state.results}
                     />
-                    <div className="right-grid">
-                        <div className="flag-container">
-                            <label htmlFor="area" className="right-label">
-                                Area:
-                            </label>
-                            <input type="text" id="area" name="area" className="right-input" />
-                        </div>
-                        <div className="flag-container">
-                            <label htmlFor="wh-id" className="right-label">
-                                Warehouse ID:
-                            </label>
-                            <input type="text" id="wh-id" name="wh-id" className="right-input" />
-                        </div>
-                        <div className="flag-container">
-                            <label htmlFor="ohqr-min" className="right-label">
-                                Minimum On Hand:
-                            </label>
-                            <input
-                                type="number"
-                                id="ohqr-min"
-                                ref={this.minRef}
-                                name="ohqr-min"
-                                min="0"
-                                defaultValue="0"
-                                placeholder="min..."
-                                className="right-input"
-                            />
-                        </div>
-                    </div>
+                    <Filters handleMinChange={this.handleMinChange} />
                 </div>
-                {handleRender && (
-                    <div className="query-results">
-                        <ReactTable
-                            data={this.state.results}
-                            columns={this.state.tableHeaders}
-                            style={{
-                                height: '60vh'
-                            }}
-                            defaultPageSize={50}
-                        />
-                    </div>
-                )}
+                {handleRender && <Rtable results={this.state.results} tableHeaders={this.state.tableHeaders} />}
             </React.Fragment>
         );
     }

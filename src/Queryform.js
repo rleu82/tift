@@ -39,7 +39,7 @@ class Queryform extends React.Component {
                     <button
                         className="query"
                         type="button"
-                        onClick={this.handleInputReset}
+                        onClick={this.props.handleInputReset}
                         disabled={this.props.isItDisabled}
                     >
                         Clear
