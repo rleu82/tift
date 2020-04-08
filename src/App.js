@@ -38,8 +38,8 @@ class App extends React.Component {
                 this.setState({ isItDisabled: true });
                 const data = event.target.result;
                 const workbook = XLSX.read(data, {
-                    type: 'binary'
-                    // cellDates: true
+                    type: 'binary',
+                    cellDates: true
                 });
                 // after data is parsed
                 const first_sheet_name = workbook.SheetNames[0];
@@ -47,8 +47,8 @@ class App extends React.Component {
                 const worksheet = workbook.Sheets[first_sheet_name];
                 // const selectToArray = XLSX.utils.sheet_to_json(worksheet, { raw: true, defval: '' });
                 const selectToArray = XLSX.utils.sheet_to_json(worksheet, {
-                    // raw: true,
-                    dateNF: 'YYYY-MM-DD',
+                    raw: false,
+                    dateNF: 'dd-mm-yyyy',
                     defval: ''
                 });
                 console.log(selectToArray);
@@ -106,7 +106,7 @@ class App extends React.Component {
     handleInputChange = event => {
         this.setState({ queryValue: event.target.value });
     };
-
+    // manage minimun on hand quantity for search
     handleMinChange = event => {
         this.setState({ minValue: event.target.value });
     };
