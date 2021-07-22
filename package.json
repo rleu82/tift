@@ -11,7 +11,7 @@
         "react-dom": "^16.13.1",
         "react-scripts": "3.4.1",
         "react-table-v6": "^6.8.6",
-        "xlsx": "^0.15.6"
+        "xlsx": "^0.17.0"
     },
     "scripts": {
         "start": "react-scripts start",
